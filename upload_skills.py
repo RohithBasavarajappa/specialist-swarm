@@ -23,6 +23,7 @@ SKILL_TO_SPECIALIST = {
     "pricing-playbook": "pricing",
     "legal-checklist":  "legal",
     "competitive-intel": "competitive",
+    "deal-history-comparison": "deal_history",
 }
 
 
@@ -38,12 +39,12 @@ def main() -> None:
     client = Anthropic()
 
     # List existing custom skills so we can detect and reuse any prior uploads.
-    # Skills API enforces unique display_title, so retrying with the same title
+    # Skills API enforces unique display_name, so retrying with the same name
     # would otherwise fail. Idempotent retry is essential for hackathon dev loops.
     print("Checking for existing skills...")
-    existing_by_title: dict[str, str] = {}
+    existing_by_name: dict[str, str] = {}
     for page in client.beta.skills.list(source="custom"):
-        existing_by_title[page.display_title] = page.id
+        existing_by_name[page.display_name] = page.id
 
     uploaded: dict[str, str] = {}
 
@@ -53,17 +54,17 @@ def main() -> None:
             print(f"  Skipping {skill_name} — no SKILL.md found")
             continue
 
-        display_title = skill_name.replace("-", " ").title()
+        display_name = skill_name.replace("-", " ").title()
 
         # 1. Upload the skill (or reuse if one already exists with this title)
-        if display_title in existing_by_title:
-            skill_id = existing_by_title[display_title]
+        if display_name in existing_by_name:
+            skill_id = existing_by_name[display_name]
             print(f"Reusing existing skill: {skill_name} ({skill_id})")
             uploaded[skill_name] = skill_id
         else:
             print(f"Uploading skill: {skill_name}...")
             skill = client.beta.skills.create(
-                display_title=display_title,
+                display_name=display_name,
                 files=files_from_dir(str(skill_dir)),
             )
             uploaded[skill_name] = skill.id
@@ -77,7 +78,7 @@ def main() -> None:
         current = client.beta.agents.retrieve(specialist_id)
         # Avoid duplicate attachment on re-run
         already_attached = any(
-            s.get("skill_id") == skill_id for s in (current.skills or [])
+            s.skill_id == skill_id for s in (current.skills or [])
         )
         if already_attached:
             print(f"  already attached ✓ (skipping)")

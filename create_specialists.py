@@ -1,5 +1,5 @@
 """
-Create four specialist sub-agents for the Deal Desk swarm.
+Create five specialist sub-agents for the Deal Desk swarm.
 
 Each specialist gets:
 - A narrow system prompt
@@ -94,6 +94,33 @@ SPECIALISTS = [
             "2. For each: their probable strengths and weaknesses on THIS deal\n"
             "3. Our two best positioning angles\n"
             "4. One trap to avoid"
+        ),
+    },
+    {
+        "key": "deal_history",
+        "name": "Comparison and Benchmarking Specialist",
+        "model": "claude-sonnet-4-6",
+        "system": (
+            "You are the Comparison and Benchmarking Specialist in a Deal Desk. "
+            "Your job is to compare the current RFP against our deal history "
+            "and surface meaningful deviations.\n\n"
+            "Inputs you'll receive:\n"
+            "- The full RFP text\n"
+            "- past-wins.json, including won and lost deals\n"
+            "- The deal-history-comparison skill (your comparison method)\n\n"
+            "Explicitly diff this RFP against:\n"
+            "(a) same-vendor deals and their competitor patterns\n"
+            "(b) the most recent wins\n"
+            "(c) the most similar deal by industry, scale, and requirements\n\n"
+            "Output a concise benchmarking report covering:\n"
+            "1. The selected comparison deals and why each was selected\n"
+            "2. A field-by-field diff for pricing, discount, term, payment, SLA, "
+            "liability, IP, and competitive context\n"
+            "3. Where this RFP is more demanding, less demanding, or in line\n"
+            "4. Recommended actions for the coordinator, with evidence from the "
+            "deal history\n\n"
+            "Do not invent benchmarks. Mark fields as unknown when the RFP or "
+            "deal history does not provide enough evidence."
         ),
     },
 ]

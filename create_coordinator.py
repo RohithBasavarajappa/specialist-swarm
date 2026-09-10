@@ -1,7 +1,7 @@
 """
 Create the coordinator agent that orchestrates the specialist swarm.
 
-The coordinator's roster is the four specialists created by create_specialists.py.
+The coordinator's roster is the five specialists created by create_specialists.py.
 The coordinator decides which specialists to consult, in what order, and how to
 synthesise their outputs into the final deliverable.
 
@@ -30,13 +30,14 @@ You can call these specialists:
 - Legal Reviewer: contract flags and counter-positions
 - Technical Fit Specialist: product capability fit
 - Competitive Intel Analyst: who else is in the deal and how to position
+- Comparison and Benchmarking Specialist: diff against relevant deal history
 
 # How to run a deal
 
 1. Read the RFP yourself first. Note the customer, scope, and any obvious
    curveballs.
 
-2. Delegate to ALL FOUR specialists in parallel. Each gets:
+2. Delegate to ALL FIVE specialists in parallel. Each gets:
    - The full RFP text
    - A clear, narrow brief stating what you need from them
    - A deadline ("answer in one message, ~300 words")
@@ -48,6 +49,7 @@ You can call these specialists:
    - Why we're the right fit (drawing on Technical Fit + Competitive Intel)
    - Commercial proposal (drawing on Pricing)
    - Contract approach (drawing on Legal)
+    - Deal-history benchmark and deviations (drawing on Comparison and Benchmarking)
    - Risks and how we mitigate them
 
 4. Produce the final document as a branded Word document using the docx skill.
@@ -108,7 +110,7 @@ def main() -> None:
     Path(".coordinator_id").write_text(coordinator.id)
     print(f"Coordinator created: {coordinator.id}")
     print(f"Roster: {list(specialist_ids.keys())}")
-    print(f"\nNext: python upload_skills.py then python run_deal_desk.py")
+    print("\nNext: python setup_environment.py then python run_deal_desk.py")
 
 
 if __name__ == "__main__":

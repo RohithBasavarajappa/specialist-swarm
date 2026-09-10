@@ -1,0 +1,30 @@
+No BTS branding skill visible to me directly; I'll produce a polished Word document via python-docx. Let me delegate to all five specialists in parallel now.Legal is in. Now spawning the Comparison/Benchmarking specialist — that's the last of the five.Four in. Waiting on Benchmarking — that's the last one before synthesis.All five specialists have reported. Time to synthesize and produce the branded proposal.Document built cleanly — 9 sections, 9 tables (including 2 callout blocks), full commercial line-item, clause-by-clause legal position, and benchmark against Initech/Stark/Globex. Delivered to `/mnt/session/outputs/BTS-Synthetic_Proposal_Acme_Corp.docx`.
+
+---
+
+**Deal Desk summary — Acme Corp Enterprise Data Platform RFP**
+
+**Recommendation: PURSUE.** Strong technical fit, closest precedent (Initech Sensors) directly relevant, real threats identifiable and beatable. Not a Pied Piper repeat — Acme has genuine complexity, not commodity intent.
+
+**Headline offer put on the table**
+- **ACV: USD 1.09M/yr, firm 5-year** (25% off list, all-in — bundles the 99.99% active-active tier at no incremental line-item)
+- **Total 5-year commitment: USD 5.43M**, no escalators
+- **Payment**: Annual advance, **Net 60** (countered from Net 90)
+- **Volume true-up**: 15% headroom
+- **Termination**: Mutual, 60 days, pro-rata refund
+
+**Three legal blockers surfaced, all countered with precedent**
+1. §4.1 Uncapped liability → 24-month-fees cap + $5M cyber policy
+2. §4.4 Full IP vesting → Stark-model licence-back of derivatives
+3. §4.5 Sole-discretion subprocessor consent → published-list + notice + object
+
+**Anti-pattern watch (from Benchmarking):** if Acme insists 35% discount + MFN + uncapped liability are all non-negotiable simultaneously, walk. Pricing floor is 30% (BAFO at 27%).
+
+**Positioning against the field**
+- Real threats: **Microsoft Fabric #1** (owns the tenant, but loses on real-time SLA — Initech proof point), **Databricks #2** (ML story real, but compute-creep beats them on TCO)
+- Snowflake and the regional vendor are secondary
+- Three winning narratives baked into the proposal: multi-cloud without lock-in, real-time IoT at production SLA, 5-year TCO predictability
+
+**Implementation**: 10 weeks to first production workload; 20-week full Teradata cutover — comfortably inside Acme's 2027 decommission window.
+
+Deliverable is in `/mnt/session/outputs/` ready to send.

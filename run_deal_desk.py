@@ -12,7 +12,9 @@ Usage:
 """
 
 import os
+import time
 from pathlib import Path
+from typing import Callable, Any
 
 from anthropic import Anthropic
 
@@ -36,14 +38,15 @@ def load_inputs_as_context() -> str:
     return "\n\n".join(blocks)
 
 
-def main() -> None:
+def main(event_observer: Callable[[Any, float], None] | None = None) -> None:
     if not os.environ.get("ANTHROPIC_API_KEY"):
         raise SystemExit("Set ANTHROPIC_API_KEY before running.")
 
     if not Path(".coordinator_id").exists() or not Path(".environment_id").exists():
         raise SystemExit(
-            "Missing .coordinator_id or .environment_id. Run "
-            "create_specialists.py, upload_skills.py, then create_coordinator.py first."
+            "Missing .coordinator_id or .environment_id. Run these commands first: "
+            "create_specialists.py, upload_skills.py, create_coordinator.py, "
+            "then setup_environment.py."
         )
 
     coordinator_id = Path(".coordinator_id").read_text().strip()
@@ -65,7 +68,7 @@ def main() -> None:
     user_message = (
         "An RFP has just landed. Please run the standard Deal Desk process:\n"
         "1. Read the RFP yourself.\n"
-        "2. Delegate to all four specialists in parallel.\n"
+        "2. Delegate to all five specialists in parallel.\n"
         "3. Synthesise their replies.\n"
         "4. Produce the final proposal response as a branded Word document "
         "if you have access to a docx skill; otherwise output the response "
@@ -78,6 +81,7 @@ def main() -> None:
     # Stream the events — this is the demo. Watch for parallel thread spawns.
     print("\n=== EVENT STREAM (this is the demo) ===\n")
     final_text_parts: list[str] = []
+    stream_started_at = time.monotonic()
 
     with client.beta.sessions.events.stream(session.id) as stream:
         client.beta.sessions.events.send(
@@ -90,6 +94,12 @@ def main() -> None:
             ],
         )
         for event in stream:
+            if event_observer is not None:
+                try:
+                    event_observer(event, time.monotonic() - stream_started_at)
+                except Exception as exc:
+                    print(f"\n  [commentary unavailable: {exc}]", flush=True)
+
             t = event.type
             if t == "session.thread_created":
                 print(f"  [thread spawned]   {event.agent_name}", flush=True)
